@@ -4,11 +4,11 @@ A full-stack cargo warehouse inventory management system that enables real-time 
 
 ---
 
-## 📦 Project Overview
+## Project Overview
 
 **Cargo Tracker** is designed to digitize and streamline the process of tracking cargo within a warehouse. Built as a solo MVP for a software development course, it showcases a complete implementation of frontend, backend, and database integration using modern web technologies.
 
-### 🔧 Core Features
+### Core Features
 
 - Cargo check-in/check-out
 - Real-time inventory dashboard
@@ -21,7 +21,7 @@ A full-stack cargo warehouse inventory management system that enables real-time 
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 
 | Layer       | Technology              |
 |-------------|--------------------------|
@@ -34,7 +34,7 @@ A full-stack cargo warehouse inventory management system that enables real-time 
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 cargo-tracker/
@@ -58,9 +58,9 @@ cargo-tracker/
 
 ---
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
-### ⚙ Backend Setup
+### Backend Setup
 
 1. Navigate to backend folder:
    ```bash
@@ -85,7 +85,7 @@ cargo-tracker/
 
 ---
 
-### 🌐 Frontend Setup
+### Frontend Setup
 
 1. Navigate to frontend folder:
    ```bash
@@ -104,7 +104,7 @@ cargo-tracker/
 
 ---
 
-## 🔒 User Roles
+## User Roles
 
 - **Admin**
   - Can view inventory reports
@@ -114,7 +114,7 @@ cargo-tracker/
 
 ---
 
-## 🧪 Testing
+## Testing
 
 Run frontend tests:
 
@@ -125,19 +125,19 @@ npm run test
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 This MVP is part of a solo course project and not currently open to contributions. However, feedback and suggestions are welcome!
 
 ---
 
-## 📜 License
+## License
 
 MIT License. © 2025 Angel Reyes Segarra
 
 ---
 
-## 🧠 Future Improvements
+## Future Improvements
 
 - Export inventory data to CSV/PDF
 - Add barcode scanning integration
