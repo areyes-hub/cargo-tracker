@@ -4,10 +4,12 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import CheckIn from './pages/CheckIn';
 import CheckOut from './pages/CheckOut';
+import Navbar from './components/Navbar';
 
 export default function App() {
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
