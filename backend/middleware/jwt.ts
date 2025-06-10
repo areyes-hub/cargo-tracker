@@ -6,7 +6,7 @@ interface JwtPayload {
   role: string;
 }
 
-declare module 'express' {
+declare module 'express-serve-static-core' {
   interface Request {
     user?: JwtPayload;
   }
@@ -15,6 +15,7 @@ declare module 'express' {
 export default function (req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ message: 'No token' });
+
   try {
     const token = authHeader.split(' ')[1];
     req.user = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
