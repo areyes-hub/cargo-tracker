@@ -26,19 +26,28 @@ router.post('/checkin', async (req, res) => {
 router.post('/checkout', async (req, res) => {
   const { cargoId } = req.body;
 
-  const cargo = await Cargo.findById(cargoId);
-  if (!cargo) return res.status(404).json({ message: 'Cargo not found' });
+  try {
+    const cargo = await Cargo.findById(cargoId);
+    if (!cargo) return res.status(404).json({ message: 'Cargo not found' });
 
-  cargo.status = 'checked-out';
-  cargo.checkOutDate = new Date();
-  await cargo.save();
+    cargo.status = 'checked-out';
+    cargo.checkOutDate = new Date();
+    await cargo.save();
 
-  res.json(cargo);
+    res.json(cargo);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error checking out cargo' });
+  }
 });
+
 
 // GET / – List all cargo
 router.get('/', async (req, res) => {
-  const items = await Cargo.find().populate('handledBy', 'name email');
+  const items = await Cargo.find()
+    .sort({ checkInDate: -1 }) // Sort descending (newest first)
+    .populate('handledBy', 'name email');
+
   res.json(items);
 });
 

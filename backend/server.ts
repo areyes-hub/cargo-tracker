@@ -16,7 +16,7 @@ mongoose.connect(process.env.MONGO_URI as string)
   .catch(err => console.error(err));
 
 app.use('/api/auth', authRoutes);
-app.use('/api/inventory', cargoRoutes);
+app.use('/api/cargo', cargoRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

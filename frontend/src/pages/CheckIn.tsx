@@ -1,26 +1,82 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
-export default function CheckIn() {
-  const [name, setName] = useState('');
-  const [desc, setDesc] = useState('');
-  const [location, setLocation] = useState('');
+const CheckIn: React.FC = () => {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    description: '',
+    weight: '',
+    destination: '',
+  });
+  const [error, setError] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    await axios.post('/api/inventory/checkin', { name, description: desc, location }, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    alert('Checked in');
+
+    const payload = {
+      ...form,
+      weight: Number(form.weight), // ✅ Convert weight to number
+    };
+
+    try {
+      await axios.post('/api/cargo/checkin', payload, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      navigate('/dashboard');
+    } catch (err) {
+      setError('Check-in failed. Please try again.');
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
-      <input placeholder="Description" value={desc} onChange={e => setDesc(e.target.value)} />
-      <input placeholder="Location" value={location} onChange={e => setLocation(e.target.value)} />
-      <button type="submit">Check In</button>
-    </form>
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+        <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+          <h2 className="text-2xl font-bold mb-6 text-center">Check In Cargo</h2>
+          {error && <div className="text-red-600 text-sm mb-4">{error}</div>}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              placeholder="Description"
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <input
+              type="number"
+              name="weight"
+              value={form.weight}
+              onChange={handleChange}
+              placeholder="Weight (kg)"
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <input
+              type="text"
+              name="destination"
+              value={form.destination}
+              onChange={handleChange}
+              placeholder="Destination"
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-green-700 transition"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
   );
-}
+};
+
+export default CheckIn;
