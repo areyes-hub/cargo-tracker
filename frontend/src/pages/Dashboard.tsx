@@ -26,7 +26,7 @@ const Dashboard: React.FC = () => {
         const response = await axios.get('/api/cargo', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
-        setCargo(response.data.reverse()); // Show newest first
+        setCargo(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -38,50 +38,56 @@ const Dashboard: React.FC = () => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
-  const filteredCargo = cargo.filter(item =>
-  (item.description?.toLowerCase() || '').includes(filters.description.toLowerCase()) &&
-  (item.destination?.toLowerCase() || '').includes(filters.destination.toLowerCase()) &&
-  (item.status?.toLowerCase() || '').includes(filters.status.toLowerCase())
-);
+  const filteredCargo = cargo
+    .filter(item =>
+      (item.description?.toLowerCase() || '').includes(filters.description.toLowerCase()) &&
+      (item.destination?.toLowerCase() || '').includes(filters.destination.toLowerCase()) &&
+      (item.status?.toLowerCase() || '').includes(filters.status.toLowerCase())
+    )
+    .sort(
+      (a, b) =>
+        new Date(b.checkInDate).getTime() - new Date(a.checkInDate).getTime()
+    );
 
   return (
     <>
       <div className="p-6 bg-gray-100 min-h-screen">
         <h1 className="text-3xl font-bold mb-6 text-center">Cargo Dashboard</h1>
-
-        <div className="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-          <input
-            type="text"
-            name="description"
-            placeholder="Filter by Description"
-            value={filters.description}
-            onChange={handleChange}
-            className="p-3 border rounded"
-          />
-          <input
-            type="text"
-            name="destination"
-            placeholder="Filter by Destination"
-            value={filters.destination}
-            onChange={handleChange}
-            className="p-3 border rounded"
-          />
-          <select
-            name="status"
-            value={filters.status}
-            onChange={handleChange}
-            className="p-3 border rounded"
-          >
-            <option value="">All Statuses</option>
-            <option value="checked-in">Checked In</option>
-            <option value="checked-out">Checked Out</option>
-          </select>
-          <button
-            onClick={() => setFilters({ description: '', destination: '', status: '' })}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded"
-          >
-            Clear Filters
-          </button>
+        <div className="overflow-x-auto flex justify-center">
+          <div className="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+            <input
+              type="text"
+              name="description"
+              placeholder="Filter by Description"
+              value={filters.description}
+              onChange={handleChange}
+              className="p-3 border rounded"
+            />
+            <input
+              type="text"
+              name="destination"
+              placeholder="Filter by Destination"
+              value={filters.destination}
+              onChange={handleChange}
+              className="p-3 border rounded"
+            />
+            <select
+              name="status"
+              value={filters.status}
+              onChange={handleChange}
+              className="p-3 border rounded"
+            >
+              <option value="">All Statuses</option>
+              <option value="checked-in">Checked In</option>
+              <option value="checked-out">Checked Out</option>
+            </select>
+            <button
+              onClick={() => setFilters({ description: '', destination: '', status: '' })}
+              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded"
+            >
+              Clear Filters
+            </button>
+          </div>
         </div>
 
         <div className="overflow-x-auto flex justify-center">

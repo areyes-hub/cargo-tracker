@@ -1,11 +1,12 @@
-// src/pages/Login.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ const Login: React.FC = () => {
 
     if (res.ok) {
       const data = await res.json();
-      localStorage.setItem('token', data.token);
+      login(data.token); // use context
       navigate('/dashboard');
     } else {
       alert('Login failed');
@@ -31,7 +32,6 @@ const Login: React.FC = () => {
         className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md"
       >
         <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
-
         <label className="block mb-2 text-sm font-medium">Email</label>
         <input
           type="email"
@@ -39,7 +39,6 @@ const Login: React.FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-
         <label className="block mb-2 text-sm font-medium">Password</label>
         <input
           type="password"
@@ -47,7 +46,6 @@ const Login: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
         <button
           type="submit"
           className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition"
