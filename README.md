@@ -1,36 +1,29 @@
-# cargo-tracker
+# Cargo Tracker
 
-A full-stack cargo warehouse inventory management system that enables real-time check-in/check-out of cargo, role-based access control, and dashboard visibility for warehouse operations.
+Cargo Tracker is a full-stack inventory management system for tracking air cargo items through a warehouse. It features secure authentication, check-in/check-out functionality, search/filtering, and a clean, responsive UI built with Tailwind CSS.
 
----
+## Features
 
-## Project Overview
-
-**Cargo Tracker** is designed to digitize and streamline the process of tracking cargo within a warehouse. Built as a solo MVP for a software development course, it showcases a complete implementation of frontend, backend, and database integration using modern web technologies.
-
-### Core Features
-
-- Cargo check-in/check-out
-- Real-time inventory dashboard
-- Search/filter by ID, status, or location
-- Role-based login system (admin/staff)
-- MongoDB-based data storage
-- Token-based authentication (JWT)
-- Frontend built with React + TypeScript
-- Backend powered by Node.js + Express
-
----
+- User authentication (JWT-based)
+- Cargo check-in and check-out
+- Real-time dashboard with filters (description, destination, status)
+- Tailwind CSS styling
+- MongoDB integration
+- Protected API routes
 
 ## Tech Stack
 
-| Layer       | Technology              |
-|-------------|--------------------------|
-| Frontend    | React + TypeScript       |
-| Backend     | Node.js + Express        |
-| Database    | MongoDB (via Mongoose)   |
-| Auth        | JSON Web Tokens (JWT)    |
-| Testing     | Vitest (frontend)        |
-| Dev Server  | Vite (frontend)          |
+- **Frontend:** React + TypeScript + Vite + Tailwind CSS
+- **Backend:** Node.js + Express + TypeScript + MongoDB (Mongoose)
+- **Authentication:** JSON Web Token (JWT)
+
+---
+
+## Prerequisites
+
+- Node.js (v18 or later recommended)
+- MongoDB running locally or with Atlas
+- npm or yarn
 
 ---
 
@@ -40,110 +33,118 @@ A full-stack cargo warehouse inventory management system that enables real-time 
 cargo-tracker/
 ├── backend/
 │   ├── models/
+│   │   └── Cargo.ts
 │   ├── routes/
+│   │   ├── auth.ts
+│   │   └── cargo.ts
 │   ├── middleware/
+│   │   └── jwt.ts
 │   ├── server.ts
-│   ├── .env
 │   └── tsconfig.json
 ├── frontend/
 │   ├── src/
 │   │   ├── pages/
-│   │   ├── __tests__/
-│   │   └── App.tsx
-│   ├── tsconfig.json
-│   └── package.json
-├── README.md
-└── .gitignore
+│   │   │   ├── Login.tsx
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── CheckIn.tsx
+│   │   │   └── CheckOut.tsx
+│   │   ├── components/
+│   │   │   └── Navbar.tsx
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   ├── index.html
+│   ├── tailwind.config.js
+│   └── postcss.config.js
 ```
 
 ---
 
 ## Setup Instructions
 
-### Backend Setup
-
-1. Navigate to backend folder:
-   ```bash
-   cd backend
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Create a `.env` file:
-   ```
-   MONGO_URI=mongodb://localhost:27017/cargotracker
-   JWT_SECRET=your_jwt_secret
-   ```
-
-4. Run the backend server:
-   ```bash
-   npm run dev
-   ```
-
----
-
-### Frontend Setup
-
-1. Navigate to frontend folder:
-   ```bash
-   cd frontend
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start development server:
-   ```bash
-   npm run dev
-   ```
-
----
-
-## User Roles
-
-- **Admin**
-  - Can view inventory reports
-  - Access full dashboard
-- **Staff**
-  - Can check-in and check-out cargo
-
----
-
-## Testing
-
-Run frontend tests:
+### 1. Clone the repository
 
 ```bash
-cd frontend
-npm run test
+git clone https://github.com/areyes-hub/cargo-tracker.git
+cd cargo-tracker
+```
+
+### 2. Install Backend
+
+```bash
+cd backend
+npm install
+```
+
+Create a `.env` file:
+
+```env
+MONGO_URI=mongodb://localhost:27017/cargo-tracker
+JWT_SECRET=your-secret-key
+```
+
+Run the backend:
+
+```bash
+npm run dev
+```
+
+### 3. Install Frontend
+
+```bash
+cd ../frontend
+npm install
+```
+
+Make sure Tailwind is compiled:
+
+```bash
+npx tailwindcss -i ./src/index.css -o ./src/output.css --watch
+```
+
+Run the frontend:
+
+```bash
+npm run dev
 ```
 
 ---
 
-## Contributing
+## Default Auth Endpoints
 
-This MVP is part of a solo course project and not currently open to contributions. However, feedback and suggestions are welcome!
+| Method | Endpoint           | Description         |
+|--------|--------------------|---------------------|
+| POST   | /api/auth/register | Register user       |
+| POST   | /api/auth/login    | Authenticate user   |
+
+---
+
+## Main Pages
+
+- `/login` - User login
+- `/dashboard` - Inventory overview (with filters)
+- `/checkin` - Register new cargo
+- `/checkout` - Check out cargo by ID
+
+---
+
+## Notes
+
+- Requires MongoDB running locally (`sudo systemctl start mongod` if installed via system package).
+- Be sure to use JWT token in localStorage or requests will be denied on protected routes.
+- Project uses absolute imports and `vite` dev server.
+
+---
+
+## Todo
+
+- Filtering by description, destination, status
+- Sorting by newest check-in
+- Pagination
+- Cargo categories
+- User roles (admin/handler)
 
 ---
 
 ## License
 
-MIT License. © 2025 Angel Reyes Segarra
-
----
-
-## Future Improvements
-
-- Export inventory data to CSV/PDF
-- Add barcode scanning integration
-- Implement multi-warehouse support
-- Add mobile-friendly UI
-
-## Author
-
-Angel Reyes
+MIT © Angel Reyes
