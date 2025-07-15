@@ -4,12 +4,18 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
 import cargoRoutes from './routes/cargo';
+import path from 'path';
 
 dotenv.config();
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/landing', express.static(path.join(__dirname, 'public')));
+
+app.get('/', (_req, res) => {
+  res.redirect('/landing');
+});
 
 mongoose.connect(process.env.MONGO_URI as string)
   .then(() => console.log('MongoDB connected'))
