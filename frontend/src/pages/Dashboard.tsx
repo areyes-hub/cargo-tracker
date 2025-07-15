@@ -26,6 +26,7 @@ const Dashboard: React.FC = () => {
         const response = await axios.get('/api/cargo', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
+        console.log("Response from API:", response.data);
         setCargo(response.data);
       } catch (error) {
         console.error(error);
