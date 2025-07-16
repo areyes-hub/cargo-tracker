@@ -5,7 +5,7 @@ import jwtMiddleware from '../middleware/jwt';
 const router = express.Router();
 
 // Apply JWT middleware to all routes below
-// router.use(jwtMiddleware);
+router.use(jwtMiddleware);
 
 // POST /checkin – Add cargo to inventory
 router.post('/checkin', async (req, res) => {

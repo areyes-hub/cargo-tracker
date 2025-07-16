@@ -21,17 +21,19 @@ const CheckIn: React.FC = () => {
 
     const payload = {
       ...form,
-      weight: Number(form.weight), // ✅ Convert weight to number
+      weight: Number(form.weight), // Convert weight to number
     };
 
     try {
-      await axios.post('/api/cargo/checkin', payload, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
-      navigate('/dashboard');
-    } catch (err) {
-      setError('Check-in failed. Please try again.');
-    }
+  const res = await axios.post('/api/cargo/checkin', payload, {
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  });
+  console.log('Check-in Success:', res.data);
+  navigate('/dashboard');
+} catch (err: any) {
+  console.error('Check-in Error:', err.response?.data || err.message);
+  setError(err.response?.data?.message || 'Check-in failed. Please try again.');
+}
   };
 
   return (
